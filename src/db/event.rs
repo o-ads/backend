@@ -47,7 +47,9 @@ impl From<Uuid> for EventId {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct EventMetadata {}
+pub struct EventMetadata {
+    pub user_agent: String,
+}
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Event {
@@ -70,7 +72,7 @@ impl Event {
     pub fn new(
         event: AdEvent,
         source_ip: IpNetwork,
-        metadata: Json<EventMetadata>,
+        metadata: EventMetadata,
         ad_id: AdId,
         site_id: SiteId,
     ) -> Self {
@@ -81,7 +83,7 @@ impl Event {
             event,
             occurred,
             source_ip,
-            metadata,
+            metadata: Json(metadata),
             ad_id,
             site_id,
         }

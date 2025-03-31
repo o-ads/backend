@@ -1,7 +1,6 @@
 use crate::db::{Db, DbResult, now};
 use serde::{Deserialize, Serialize};
-use sqlx::types::chrono::NaiveDateTime;
-use uuid::Uuid;
+use sqlx::types::{chrono::NaiveDateTime, uuid::Uuid};
 
 #[derive(Debug, Serialize, Deserialize, sqlx::Type, PartialEq, Eq)]
 #[sqlx(transparent)]

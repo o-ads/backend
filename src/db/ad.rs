@@ -118,7 +118,7 @@ impl PlacementData {
             PlacementData,
             r#"SELECT id AS ad_id, asset_url_sm, asset_url_lg, clickthrough_url
                FROM ad
-               TABLESAMPLE SYSTEM(0.01)
+               TABLESAMPLE SYSTEM(100)
                WHERE active = true
                LIMIT 1"#
         )

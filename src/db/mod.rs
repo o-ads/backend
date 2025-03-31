@@ -1,17 +1,15 @@
 pub mod ad;
 pub mod buyer;
 pub mod event;
-pub mod placement;
 pub mod site;
 use sqlx::postgres::PgPool;
 
 pub type Db = std::sync::Arc<PgPool>;
 pub type DbResult<T> = Result<T, sqlx::Error>;
 
-pub use ad::Ad;
+pub use ad::{Ad, PlacementData};
 pub use buyer::Buyer;
-pub use event::Event;
-pub use placement::Placement;
+pub use event::{AdEvent, Event, EventMetadata};
 pub use site::Site;
 
 pub async fn pool(conn_str: &str) -> Result<PgPool, sqlx::Error> {
