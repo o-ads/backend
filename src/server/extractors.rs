@@ -3,7 +3,11 @@ use crate::errors::AppError;
 use axum::extract::ConnectInfo;
 use axum_extra::headers::{self, Header, HeaderName, HeaderValue};
 use serde::{Deserialize, Serialize};
-use sqlx::types::{ipnetwork::IpNetwork, uuid::Uuid};
+use sqlx::types::{
+    chrono::{DateTime, NaiveDateTime},
+    ipnetwork::IpNetwork,
+    uuid::Uuid,
+};
 use std::net::SocketAddr;
 
 pub type ConnectAddr = ConnectInfo<SocketAddr>;
@@ -13,6 +17,15 @@ pub fn convert_ip(in_addr: SocketAddr) -> Result<IpNetwork, AppError> {
         tracing::error!("bad addr {in_addr}");
         AppError::InvalidRequest
     })
+}
+
+pub fn parse_occurred(raw: &str) -> Result<NaiveDateTime, AppError> {
+    DateTime::parse_from_rfc3339(raw)
+        .map(|dt| dt.naive_utc())
+        .map_err(|_| {
+            tracing::error!("invalid occurred {raw}");
+            AppError::InvalidRequest
+        })
 }
 
 #[derive(Debug, Deserialize, Serialize)]

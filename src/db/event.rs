@@ -1,4 +1,4 @@
-use crate::db::{Db, DbResult, ad::AdId, now, site::SiteId};
+use crate::db::{Db, DbResult, ad::AdId, site::SiteId};
 use serde::{Deserialize, Serialize};
 use sqlx::types::{Json, chrono::NaiveDateTime, ipnetwork::IpNetwork};
 use uuid::Uuid;
@@ -71,13 +71,13 @@ impl std::cmp::PartialEq for Event {
 impl Event {
     pub fn new(
         event: AdEvent,
+        occurred: NaiveDateTime,
         source_ip: IpNetwork,
         metadata: EventMetadata,
         ad_id: AdId,
         site_id: SiteId,
     ) -> Self {
         let id = EventId::new();
-        let occurred = now();
         Self {
             id,
             event,

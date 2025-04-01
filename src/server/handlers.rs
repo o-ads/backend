@@ -1,7 +1,7 @@
 use crate::db::{Event, EventMetadata, PlacementData};
 use crate::errors::AppError;
 use crate::server::AppState;
-use crate::server::extractors::{ConnectAddr, EventData, SiteIdHeader, convert_ip};
+use crate::server::extractors::{ConnectAddr, EventData, SiteIdHeader, convert_ip, parse_occurred};
 use axum::{
     Json,
     extract::{ConnectInfo, State},
@@ -20,8 +20,10 @@ pub async fn post_event(
     let metadata = EventMetadata {
         user_agent: user_agent.as_str().into(),
     };
+    let occurred = parse_occurred(&event_data.occurred)?;
     Event::new(
         event_data.event_type,
+        occurred,
         source_ip,
         metadata,
         event_data.ad_id,
