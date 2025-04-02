@@ -104,6 +104,7 @@ impl Ad {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct PlacementData {
     ad_id: AdId,
     asset_url_sm: String,
